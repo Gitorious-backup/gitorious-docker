@@ -1,6 +1,22 @@
-# Gitorious in a Docker container
+# Gitorious Docker container
 
 WARNING: this is proof of concept - not ready for production use!
+
+Gitorious docker container includes all the services needed for proper
+operation of the Gitorious app. The services are installed and configured to be
+run with no requirement of an additional human intervention.
+
+Services include:
+
+* unicorn
+* resque
+* MySQL
+* Redis
+* Memcached
+* Nginx
+* OpenSSH
+* git-daemon
+* TODO: Sphinx search daemon
 
 ## Building the image
 
@@ -38,7 +54,8 @@ To start the container run:
 Supervisor will start and monitor all the Gitorious processes as you will see
 on the console.
 
-You should now be able to access Gitorious at http://localhost:7080/
+You should now be able to access Gitorious at
+[http://localhost:7080/](http://localhost:7080/).
 
 To stop the container just hit ctrl-c.
 
