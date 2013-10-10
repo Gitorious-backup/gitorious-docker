@@ -23,7 +23,7 @@ chown -R git:git $DATADIR
 
 echo "~~ Copying default config files to $CONFIGDIR..."
 cp $TEMPLATESDIR/gitorious.yml $CONFIGDIR
-cp $TEMPLATESDIR/mailer_config.rb $CONFIGDIR
+cp $TEMPLATESDIR/mailer.rb $CONFIGDIR
 
 echo "~~ Creating mysql database..."
 mysql_install_db >/dev/null

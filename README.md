@@ -26,7 +26,7 @@ You need to initialize the container data directory first. Run:
 It will create /var/lib/gitorious directory that will store Mysql data files,
 git repositories, cached tarball and config file(s).
 
-Now, edit /var/lib/gitorious/data/mailer\_config.rb and set SMTP configurations
+Now, edit /var/lib/gitorious/config/mailer.rb and set SMTP configurations
 so Gitorious can deliver its emails.
 
 ### Starting the container
@@ -63,5 +63,5 @@ To try it out in a VM you can use the example Vagrantfile:
     vagrant ssh
     cd /vagrant
     make init
-    # edit mailer_config.rb
+    # edit mailer.rb
     make start

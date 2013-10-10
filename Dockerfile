@@ -36,7 +36,7 @@ RUN ln -s /srv/gitorious/docker/config/database.yml /home/git/app/config/databas
     ln -s /srv/gitorious/docker/config/memcache.yml /home/git/app/config/memcache.yml
 
 RUN ln -s /var/lib/gitorious/config/gitorious.yml /home/git/app/config/; \
-    ln -s /var/lib/gitorious/config/mailer_config.rb /home/git/app/config/initializers/
+    ln -s /var/lib/gitorious/config/mailer.rb /home/git/app/config/initializers/
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf; \
     ln -fs /srv/gitorious/docker/config/nginx.conf /etc/nginx/sites-enabled/default
