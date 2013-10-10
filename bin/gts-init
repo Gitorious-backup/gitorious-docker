@@ -26,6 +26,7 @@ cp $TEMPLATESDIR/gitorious.yml $CONFIGDIR
 cp $TEMPLATESDIR/mailer.rb $CONFIGDIR
 
 echo "~~ Creating mysql database..."
+mkdir -p $DATADIR/mysql
 mysql_install_db >/dev/null
 /usr/bin/mysqld_safe >/dev/null 2>&1 &
 sleep 3

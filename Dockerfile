@@ -41,12 +41,13 @@ RUN ln -s /var/lib/gitorious/config/gitorious.yml /home/git/app/config/; \
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf; \
     ln -fs /srv/gitorious/docker/config/nginx.conf /etc/nginx/sites-enabled/default
 
+RUN rm -rf /var/lib/mysql && ln -s /var/lib/gitorious/data/mysql /var/lib/mysql
+
 RUN mkdir -p /home/git/.ssh && touch /home/git/.ssh/authorized_keys; \
     chown -R git:git /home/git/.ssh; \
     chmod 0700 /home/git/.ssh && chmod 0600 /home/git/.ssh/authorized_keys
 
 VOLUME ["/var/lib/gitorious"]
-VOLUME ["/var/lib/mysql"]
 
 EXPOSE 80
 EXPOSE 22
