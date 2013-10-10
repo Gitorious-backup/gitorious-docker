@@ -2,19 +2,28 @@
 
 set -e
 
+BASEDIR=/var/lib/gitorious
+DATADIR=$BASEDIR/data
+CONFIGDIR=$BASEDIR/config
+DOCKERDIR=/srv/gitorious/docker
+TEMPLATESDIR=$DOCKERDIR/templates
+
 echo "~~ Initializing Gitorious..."
 
-[[ -d /var/lib/gitorious/data/repositories ]] && echo "Error: initialization already done" && exit 1
+[[ -d $DATADIR/repositories ]] && echo "Error: initialization already done" && exit 1
 
 export RAILS_ENV=production
 
-echo "~~ Creating data directories..."
-mkdir -p /var/lib/gitorious/data/repositories /var/lib/gitorious/data/tarball-cache /var/lib/gitorious/data/tarball-work
-chown -R git:git /var/lib/gitorious/data
+echo "~~ Creating config and data directories..."
+mkdir -p $CONFIGDIR
+mkdir -p $DATADIR/repositories
+mkdir -p $DATADIR/tarball-cache
+mkdir -p $DATADIR/tarball-work
+chown -R git:git $DATADIR
 
-echo "~~ Copying default config files to data dir..."
-cp /srv/gitorious/docker/templates/gitorious.yml /var/lib/gitorious/data/
-cp /srv/gitorious/docker/templates/mailer_config.rb /var/lib/gitorious/data/
+echo "~~ Copying default config files to $CONFIGDIR..."
+cp $TEMPLATESDIR/gitorious.yml $CONFIGDIR
+cp $TEMPLATESDIR/mailer_config.rb $CONFIGDIR
 
 echo "~~ Creating mysql database..."
 mysql_install_db >/dev/null
