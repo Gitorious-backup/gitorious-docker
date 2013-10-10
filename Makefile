@@ -1,4 +1,4 @@
-VOLUME_OPTIONS=-v /var/lib/gitorious/data:/home/git/data -v /var/lib/gitorious/mysql:/var/lib/mysql
+VOLUME_OPTIONS=-v /var/lib/gitorious/data:/var/lib/gitorious/data -v /var/lib/gitorious/mysql:/var/lib/mysql
 PORT_OPTIONS=-p 7080:80 -p 7022:22 -p 9418:9418
 
 all: build

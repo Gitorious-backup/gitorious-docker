@@ -35,7 +35,7 @@ RUN ln -s /srv/gitorious/docker/config/database.yml /home/git/app/config/databas
     ln -s /srv/gitorious/docker/config/unicorn.rb /home/git/app/config/unicorn.rb; \
     ln -s /srv/gitorious/docker/config/memcache.yml /home/git/app/config/memcache.yml
 
-RUN ln -s /home/git/data/gitorious.yml /home/git/app/config/; \
+RUN ln -s /var/lib/gitorious/data/gitorious.yml /home/git/app/config/; \
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf; \
     ln -fs /srv/gitorious/docker/config/nginx.conf /etc/nginx/sites-enabled/default
@@ -44,7 +44,7 @@ RUN mkdir -p /home/git/.ssh && touch /home/git/.ssh/authorized_keys; \
     chown -R git:git /home/git/.ssh; \
     chmod 0700 /home/git/.ssh && chmod 0600 /home/git/.ssh/authorized_keys
 
-VOLUME ["/home/git/data"]
+VOLUME ["/var/lib/gitorious/data"]
 VOLUME ["/var/lib/mysql"]
 
 EXPOSE 80

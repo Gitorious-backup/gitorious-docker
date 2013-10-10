@@ -6,6 +6,6 @@ port: 7080
 frontend_server: nginx
 client_port: 3000
 ssh_daemon_port: 7022
-repository_base_path: /home/git/data/repositories
-archive_cache_dir: /home/git/data/tarball-cache
-archive_work_dir: /home/git/data/tarball-work
+repository_base_path: /var/lib/gitorious/data/repositories
+archive_cache_dir: /var/lib/gitorious/data/tarball-cache
+archive_work_dir: /var/lib/gitorious/data/tarball-work
