@@ -18,6 +18,7 @@ RUN gem install bundler --no-rdoc --no-ri
 
 RUN adduser git
 
+# TODO: move the app from /home/git/app to /srv/gitorious/app
 RUN su git -c "git clone git://gitorious.org/gitorious/mainline.git /home/git/app"
 RUN su git -c "cd /home/git/app && git checkout next && git submodule update --recursive --init"
 
