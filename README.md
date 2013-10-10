@@ -24,7 +24,7 @@ You need to initialize the container data directory first. Run:
     make init
 
 It will create /var/lib/gitorious directory that will store Mysql data files,
-git repositories, cached tarball and config file(s).
+git repositories, cached tarball and config files.
 
 Now, edit /var/lib/gitorious/config/mailer.rb and set SMTP configurations
 so Gitorious can deliver its emails.
@@ -38,8 +38,9 @@ To start the container run:
 Supervisor will start and monitor all the Gitorious processes as you will see
 on the console.
 
-To stop the container just hit ctrl-c.
+You should now be able to access Gitorious at http://localhost:7080/
 
+To stop the container just hit ctrl-c.
 
 ### Port mapping
 
@@ -48,12 +49,12 @@ task maps them to 7022, 7080 and 9418 accordingly.
 
 If you're running a real server then you should change the mapping so the port
 number on the host maps to the same port number in the container and adjust
-gitorious.yml in /var/lib/gitorious/data/ dir.
+gitorious.yml in /var/lib/gitorious/config/ dir.
 
 NOTE: you need to prepend your ssh remote URL with `ssh://` as the displayed
 URLs (with non-standard port) are wrong at the moment:
 
-git@localhost:7022/user/repo.git --> ssh://git@localhost:7022/user/repo.git
+    git@localhost:7022/user/repo.git --> ssh://git@localhost:7022/user/repo.git
 
 ## Vagrant
 
@@ -63,5 +64,9 @@ To try it out in a VM you can use the example Vagrantfile:
     vagrant ssh
     cd /vagrant
     make init
-    # edit mailer.rb
+    # edit /var/lib/gitorious/config/mailer.rb
     make start
+
+When running Gitorious container under Vagrant you can clone/pull/push from
+either Vagrant's host system or the VM as the port forwarding just maps the
+ports to the same numbers (see Vagrantfile).
