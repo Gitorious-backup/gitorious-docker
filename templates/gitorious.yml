@@ -5,6 +5,7 @@ host: localhost
 port: 7080
 frontend_server: nginx
 client_port: 3000
+ssh_daemon_port: 7022
 repository_base_path: /home/git/data/repositories
 archive_cache_dir: /home/git/data/tarball-cache
 archive_work_dir: /home/git/data/tarball-work
