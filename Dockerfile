@@ -52,5 +52,5 @@ EXPOSE 80
 EXPOSE 22
 EXPOSE 9418
 
-ENTRYPOINT ["/srv/gitorious/docker/gts.sh"]
+ENTRYPOINT ["/srv/gitorious/docker/bin/gts"]
 CMD ["start"]

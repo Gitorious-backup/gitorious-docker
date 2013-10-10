@@ -4,10 +4,10 @@ set -e
 
 case "$1" in
   init)
-    /srv/gitorious/docker/init.sh
+    /srv/gitorious/docker/bin/gts-init
     ;;
   start)
-    /srv/gitorious/docker/start.sh
+    /srv/gitorious/docker/bin/gts-start
     ;;
   *)
     "$@"
