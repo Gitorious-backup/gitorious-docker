@@ -3,4 +3,4 @@
 set -e
 
 echo "~~ Starting Gitorious..."
-exec supervisord -n
+exec supervisord -n -c /srv/gitorious/docker/config/supervisord.conf

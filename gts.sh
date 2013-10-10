@@ -4,10 +4,10 @@ set -e
 
 case "$1" in
   init)
-    /home/git/init.sh
+    /srv/gitorious/docker/init.sh
     ;;
   start)
-    /home/git/start.sh
+    /srv/gitorious/docker/start.sh
     ;;
   *)
     "$@"

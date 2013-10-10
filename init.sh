@@ -13,8 +13,8 @@ mkdir -p /home/git/data/repositories /home/git/data/tarball-cache /home/git/data
 chown -R git:git /home/git/data
 
 echo "~~ Copying default config files to data dir..."
-cp /home/git/templates/gitorious.yml /home/git/data/
-cp /home/git/templates/mailer_config.rb /home/git/data/
+cp /srv/gitorious/docker/templates/gitorious.yml /home/git/data/
+cp /srv/gitorious/docker/templates/mailer_config.rb /home/git/data/
 
 echo "~~ Creating mysql database..."
 mysql_install_db >/dev/null

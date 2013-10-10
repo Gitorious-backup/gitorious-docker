@@ -23,30 +23,26 @@ RUN su git -c "cd /home/git/app && git checkout next && git submodule update --r
 
 RUN su git -c "cd /home/git/app && bundle install --deployment --without development test"
 
+RUN apt-get install -y memcached
+
 RUN echo "root:docker" | chpasswd
 
-ADD ./bin/gitorious /usr/bin/gitorious
-RUN chmod a+x /usr/bin/gitorious
+ADD . /srv/gitorious/docker
 
-ADD ./config/database.yml /home/git/app/config/database.yml
-ADD ./config/unicorn.rb /home/git/app/config/unicorn.rb
-RUN chown -R git:git /home/git/app/config
+RUN ln -s /srv/gitorious/docker/bin/gitorious /usr/bin/gitorious
 
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-ADD ./config/nginx.conf /etc/nginx/sites-enabled/default
+RUN ln -s /srv/gitorious/docker/config/database.yml /home/git/app/config/database.yml; \
+    ln -s /srv/gitorious/docker/config/unicorn.rb /home/git/app/config/unicorn.rb; \
+    ln -s /srv/gitorious/docker/config/memcache.yml /home/git/app/config/memcache.yml
 
-ADD ./config/supervisord.conf /etc/supervisord.conf
+RUN ln -s /home/git/data/gitorious.yml /home/git/app/config/; \
 
-RUN mkdir -p /home/git/.ssh && touch /home/git/.ssh/authorized_keys
-RUN chown -R git:git /home/git/.ssh
-RUN chmod 0700 /home/git/.ssh && chmod 0600 /home/git/.ssh/authorized_keys
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf; \
+    ln -fs /srv/gitorious/docker/config/nginx.conf /etc/nginx/sites-enabled/default
 
-ADD ./gts.sh /home/git/gts.sh
-ADD ./init.sh /home/git/init.sh
-ADD ./start.sh /home/git/start.sh
-ADD ./templates /home/git/templates
-
-RUN su - git -c "ln -s /home/git/data/gitorious.yml /home/git/app/config && ln -s /home/git/data/mailer_config.rb /home/git/app/config/initializers/"
+RUN mkdir -p /home/git/.ssh && touch /home/git/.ssh/authorized_keys; \
+    chown -R git:git /home/git/.ssh; \
+    chmod 0700 /home/git/.ssh && chmod 0600 /home/git/.ssh/authorized_keys
 
 VOLUME ["/home/git/data"]
 VOLUME ["/var/lib/mysql"]
@@ -55,5 +51,5 @@ EXPOSE 80
 EXPOSE 22
 EXPOSE 9418
 
-ENTRYPOINT ["/home/git/gts.sh"]
+ENTRYPOINT ["/srv/gitorious/docker/gts.sh"]
 CMD ["start"]
