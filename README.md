@@ -24,7 +24,7 @@ You need to initialize the container data directory first. Run:
     make init
 
 It will create /var/lib/gitorious directory that will store Mysql data files,
-git repositories, cached tarball and config files.
+git repositories, cached tarballs and config files.
 
 Now, edit /var/lib/gitorious/config/mailer.rb and set SMTP configurations
 so Gitorious can deliver its emails.
