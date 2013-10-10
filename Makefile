@@ -20,3 +20,6 @@ data-dirs:
 
 clean:
 	sudo rm -rf /var/lib/gitorious/data /var/lib/gitorious
+
+push:
+	sudo docker push sickill/gitorious
