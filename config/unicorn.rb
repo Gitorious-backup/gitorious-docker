@@ -1,5 +1,5 @@
 worker_processes 4
-working_directory "/home/git/app"
+working_directory "/srv/gitorious/app"
 timeout 30
 listen 3000
 preload_app true

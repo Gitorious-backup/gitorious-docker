@@ -18,9 +18,10 @@ RUN gem install bundler --no-rdoc --no-ri
 
 RUN adduser git
 
-# TODO: move the app from /home/git/app to /srv/gitorious/app
-RUN su git -c "git clone git://gitorious.org/gitorious/mainline.git /home/git/app; \
-               cd /home/git/app; \
+RUN mkdir -p /srv/gitorious && chown git:git /srv/gitorious
+
+RUN su git -c "git clone git://gitorious.org/gitorious/mainline.git /srv/gitorious/app; \
+               cd /srv/gitorious/app; \
                git checkout next; \
                git submodule update --recursive --init; \
                bundle install --deployment --without development test"
@@ -31,12 +32,12 @@ ADD . /srv/gitorious/docker
 
 RUN ln -s /srv/gitorious/docker/bin/gitorious /usr/bin/gitorious
 
-RUN ln -s /srv/gitorious/docker/config/database.yml /home/git/app/config/database.yml; \
-    ln -s /srv/gitorious/docker/config/unicorn.rb /home/git/app/config/unicorn.rb; \
-    ln -s /srv/gitorious/docker/config/memcache.yml /home/git/app/config/memcache.yml
+RUN ln -s /srv/gitorious/docker/config/database.yml /srv/gitorious/app/config/database.yml; \
+    ln -s /srv/gitorious/docker/config/unicorn.rb /srv/gitorious/app/config/unicorn.rb; \
+    ln -s /srv/gitorious/docker/config/memcache.yml /srv/gitorious/app/config/memcache.yml
 
-RUN ln -s /var/lib/gitorious/config/gitorious.yml /home/git/app/config/; \
-    ln -s /var/lib/gitorious/config/mailer.rb /home/git/app/config/initializers/
+RUN ln -s /var/lib/gitorious/config/gitorious.yml /srv/gitorious/app/config/; \
+    ln -s /var/lib/gitorious/config/mailer.rb /srv/gitorious/app/config/initializers/
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf; \
     ln -fs /srv/gitorious/docker/config/nginx.conf /etc/nginx/sites-enabled/default
