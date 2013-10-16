@@ -6,11 +6,11 @@ RUN echo exit 101 > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
 
 RUN apt-get -y update
 
-RUN apt-get -y install build-essential curl git
-RUN apt-get -y install redis-server git-daemon-sysvinit nginx supervisor sphinxsearch openssh-server
-RUN apt-get -y install mysql-client mysql-server libmysqlclient-dev libpq-dev
-RUN apt-get -y install ruby ruby-dev rake
-RUN apt-get -y install libxml2-dev libxslt1-dev libreadline6 libicu-dev
+RUN apt-get -y install build-essential curl git redis-server \
+               git-daemon-sysvinit nginx supervisor sphinxsearch \
+               openssh-server mysql-client mysql-server libmysqlclient-dev \
+               libpq-dev ruby ruby-dev rake libxml2-dev libxslt1-dev \
+               libreadline6 libicu-dev memcached
 
 RUN mkdir /var/run/sshd
 
@@ -19,12 +19,11 @@ RUN gem install bundler --no-rdoc --no-ri
 RUN adduser git
 
 # TODO: move the app from /home/git/app to /srv/gitorious/app
-RUN su git -c "git clone git://gitorious.org/gitorious/mainline.git /home/git/app"
-RUN su git -c "cd /home/git/app && git checkout next && git submodule update --recursive --init"
-
-RUN su git -c "cd /home/git/app && bundle install --deployment --without development test"
-
-RUN apt-get install -y memcached
+RUN su git -c "git clone git://gitorious.org/gitorious/mainline.git /home/git/app; \
+               cd /home/git/app; \
+               git checkout next; \
+               git submodule update --recursive --init; \
+               bundle install --deployment --without development test"
 
 RUN echo "root:docker" | chpasswd
 
