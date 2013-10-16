@@ -12,8 +12,6 @@ echo "~~ Initializing Gitorious..."
 
 [[ -d $DATADIR/repositories ]] && echo "Error: initialization already done" && exit 1
 
-export RAILS_ENV=production
-
 echo "~~ Creating config and data directories..."
 mkdir -p $CONFIGDIR
 mkdir -p $DATADIR/repositories

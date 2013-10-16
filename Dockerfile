@@ -1,8 +1,8 @@
 FROM ubuntu:12.10
-# ENV RAILS_ENV production < enable this and remove RAILS_ENV from all other places
 
-RUN echo exit 101 > /usr/sbin/policy-rc.d
-RUN chmod +x /usr/sbin/policy-rc.d
+ENV RAILS_ENV production
+
+RUN echo exit 101 > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
 
 RUN apt-get -y update
 
