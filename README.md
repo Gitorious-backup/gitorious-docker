@@ -68,11 +68,6 @@ If you're running a real server then you should change the mapping so the port
 number on the host maps to the same port number in the container and adjust
 gitorious.yml in /var/lib/gitorious/config/ dir.
 
-NOTE: you need to prepend your ssh remote URL with `ssh://` as the displayed
-URLs (with non-standard port) are wrong at the moment:
-
-    git@localhost:7022/user/repo.git --> ssh://git@localhost:7022/user/repo.git
-
 ## Vagrant
 
 To try it out in a VM you can use the example Vagrantfile:
