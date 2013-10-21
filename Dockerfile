@@ -22,7 +22,7 @@ RUN mkdir -p /srv/gitorious && chown git:git /srv/gitorious
 
 RUN su git -c "git clone git://gitorious.org/gitorious/mainline.git /srv/gitorious/app; \
                cd /srv/gitorious/app; \
-               git checkout next; \
+               git checkout 7e21ba5; \
                git submodule update --recursive --init; \
                bundle install --deployment --without development test"
 
