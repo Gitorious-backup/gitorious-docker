@@ -24,7 +24,7 @@ RUN echo "root:docker" | chpasswd
 
 RUN su git -c "git clone git://gitorious.org/gitorious/mainline.git /srv/gitorious/app; \
                cd /srv/gitorious/app; \
-               git checkout 1b65a16; \
+               git checkout a9c1b24; \
                git submodule update --recursive --init; \
                bundle install --deployment --without development test"
 
