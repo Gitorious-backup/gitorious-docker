@@ -30,7 +30,7 @@ RUN echo "root:docker" | chpasswd
 
 ADD . /srv/gitorious/docker
 
-RUN ln -s /srv/gitorious/docker/bin/gitorious /usr/bin/gitorious
+RUN echo "#!/bin/sh\n\nexec /srv/gitorious/app/bin/gitorious \"\$@\"" > /usr/bin/gitorious && chmod a+x /usr/bin/gitorious
 
 RUN ln -s /srv/gitorious/docker/config/database.yml /srv/gitorious/app/config/database.yml; \
     ln -s /srv/gitorious/docker/config/unicorn.rb /srv/gitorious/app/config/unicorn.rb; \
