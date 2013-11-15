@@ -1,0 +1,48 @@
+#!/bin/bash
+
+set -e
+
+BASEDIR=/var/lib/gitorious
+DATADIR=$BASEDIR/data
+CONFIGDIR=$BASEDIR/config
+DOCKERDIR=/srv/gitorious/docker
+TEMPLATESDIR=$DOCKERDIR/templates
+
+echo "~~ Starting Gitorious..."
+
+if [[ ! -d $DATADIR/repositories ]]; then
+  echo "~~ Creating data directories at $DATADIR..."
+  mkdir -p $DATADIR/repositories
+  mkdir -p $DATADIR/tarball-cache
+  mkdir -p $DATADIR/tarball-work
+  chown -R git:git $DATADIR
+fi
+
+if [[ ! -d $CONFIGDIR ]]; then
+  echo "~~ Creating config directory $CONFIGDIR and copying default config files..."
+  mkdir -p $CONFIGDIR
+  cp $TEMPLATESDIR/gitorious.yml $CONFIGDIR
+  cp $TEMPLATESDIR/mailer.rb $CONFIGDIR
+fi
+
+if [[ -n $GITORIOUS_DATABASE_URL ]]; then
+  echo "~~ Using provided \$GITORIOUS_DATABASE_URL=$GITORIOUS_DATABASE_URL for database connection"
+  export DATABASE_URL=$GITORIOUS_DATABASE_URL
+elif [[ -n $GITORIOUS_DB_PORT_3306_TCP_ADDR ]]; then
+  echo "~~ Using linked container \"gitorious_db\" for database connection"
+  export DATABASE_URL="mysql2://root@$GITORIOUS_DB_PORT_3306_TCP_ADDR:$GITORIOUS_DB_PORT_3306_TCP_PORT/gitorious?encoding=utf8"
+else
+  echo "~~ Using embedded MySQL instance for database connection"
+
+  if [[ -d $DATADIR/mysql ]]; then
+    /usr/bin/mysqld_safe >/dev/null 2>&1 &
+  else
+    echo "~~ Creating MySQL database..."
+    cp -r /var/lib/mysql-template $DATADIR/mysql && chown -R mysql:mysql $DATADIR/mysql
+    /usr/bin/mysqld_safe >/dev/null 2>&1 &
+    sleep 5
+    echo "create database gitorious; grant all privileges on gitorious.* to gitorious@localhost identified by 'yourpassword'" | mysql -u root
+  fi
+fi
+
+exec "$@"

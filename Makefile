@@ -6,10 +6,10 @@ all: build
 build:
 	sudo docker build -t sickill/gitorious .
 
-init: clean data-dir
-	sudo docker run ${VOLUME_OPTIONS} sickill/gitorious:latest init
+init: data-dir
+	sudo docker run ${VOLUME_OPTIONS} sickill/gitorious:latest /srv/gitorious/docker/bin/seed
 
-start:
+start: data-dir
 	sudo docker run ${PORT_OPTIONS} ${VOLUME_OPTIONS} sickill/gitorious:latest
 
 bash:

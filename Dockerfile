@@ -20,13 +20,13 @@ RUN adduser git
 
 RUN mkdir -p /srv/gitorious && chown git:git /srv/gitorious
 
+RUN echo "root:docker" | chpasswd
+
 RUN su git -c "git clone git://gitorious.org/gitorious/mainline.git /srv/gitorious/app; \
                cd /srv/gitorious/app; \
                git checkout 1b65a16; \
                git submodule update --recursive --init; \
                bundle install --deployment --without development test"
-
-RUN echo "root:docker" | chpasswd
 
 ADD . /srv/gitorious/docker
 
@@ -42,7 +42,9 @@ RUN ln -s /var/lib/gitorious/config/gitorious.yml /srv/gitorious/app/config/; \
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf; \
     ln -fs /srv/gitorious/docker/config/nginx.conf /etc/nginx/sites-enabled/default
 
-RUN rm -rf /var/lib/mysql && ln -s /var/lib/gitorious/data/mysql /var/lib/mysql
+RUN mysql_install_db
+RUN mv /var/lib/mysql /var/lib/mysql-template
+RUN ln -s /var/lib/gitorious/data/mysql /var/lib/mysql
 
 RUN mkdir -p /home/git/.ssh && touch /home/git/.ssh/authorized_keys; \
     chown -R git:git /home/git/.ssh; \
@@ -54,5 +56,5 @@ EXPOSE 80
 EXPOSE 22
 EXPOSE 9418
 
-ENTRYPOINT ["/srv/gitorious/docker/bin/gts"]
-CMD ["start"]
+ENTRYPOINT ["/srv/gitorious/docker/bin/start"]
+CMD ["supervisord", "-n", "-c", "/srv/gitorious/docker/config/supervisord.conf"]
