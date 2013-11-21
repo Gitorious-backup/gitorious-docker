@@ -56,5 +56,5 @@ EXPOSE 80
 EXPOSE 22
 EXPOSE 9418
 
-ENTRYPOINT ["/srv/gitorious/docker/bin/start"]
+ENTRYPOINT ["/srv/gitorious/docker/bin/run"]
 CMD ["supervisord", "-n", "-c", "/srv/gitorious/docker/config/supervisord.conf"]
