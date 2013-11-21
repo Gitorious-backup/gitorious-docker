@@ -2,47 +2,91 @@
 
 set -e
 
-BASEDIR=/var/lib/gitorious
-DATADIR=$BASEDIR/data
-CONFIGDIR=$BASEDIR/config
-DOCKERDIR=/srv/gitorious/docker
+APPDIR=/srv/gitorious
+VARDIR=/var/lib/gitorious
+
+DATADIR=$VARDIR/data
+CONFIGDIR=$VARDIR/config
+DOCKERDIR=$APPDIR/docker
 TEMPLATESDIR=$DOCKERDIR/templates
+ENVFILE=$APPDIR/env
+
+MYSQL_DB=gitorious
+MYSQL_USER=gitorious
+MYSQL_PASS=yourpassword
+
+function ensure_data_directories {
+  if [[ ! -d $DATADIR/repositories ]]; then
+    echo "~~ Creating data directories at $DATADIR..."
+    mkdir -p $DATADIR/repositories
+    mkdir -p $DATADIR/tarball-cache
+    mkdir -p $DATADIR/tarball-work
+    chown -R git:git $DATADIR
+  fi
+}
+
+function ensure_config_files {
+  if [[ ! -d $CONFIGDIR ]]; then
+    echo "~~ Creating config directory at $CONFIGDIR and copying config files..."
+    mkdir -p $CONFIGDIR
+    cp $TEMPLATESDIR/gitorious.yml $CONFIGDIR
+    cp $TEMPLATESDIR/database.yml $CONFIGDIR
+    cp $TEMPLATESDIR/mailer.rb $CONFIGDIR
+  fi
+}
+
+function start_mysqld {
+  /usr/bin/mysqld_safe >/dev/null 2>&1 &
+  until mysqladmin ping >/dev/null 2>&1; do sleep 0.5; done
+}
+
+function init_db {
+  echo "~~ Creating MySQL database..."
+  cp -r /var/lib/mysql-template $DATADIR/mysql && chown -R mysql:mysql $DATADIR/mysql
+  start_mysqld
+  echo "create database $MYSQL_DB; grant all privileges on $MYSQL_DB.* to $MYSQL_USER@localhost identified by '$MYSQL_PASS'" | mysql -u root
+}
+
+function seed_db {
+  su git <<EOS
+    cd /srv/gitorious/app
+
+    echo "~~ Loading schema into the database..."
+    bin/rake db:schema:load >/dev/null 2>&1
+
+    # echo "~~ Creating Sphinx index..."
+    # bin/rake ts:index
+
+    # echo "~~ Adding first user..."
+    # bin/create-user
+EOS
+}
+
+function exec_query {
+  cd /srv/gitorious/app && echo "$1"| bundle exec rails dbconsole -p >/dev/null 2>&1
+}
+
+function setup_db {
+  if [[ -d $DATADIR/mysql ]]; then
+    start_mysqld
+  else
+    init_db
+  fi
+
+  echo "~~ Checking database connection..."
+  if ! exec_query "select 1"; then
+    echo "Can't connect to the database. Check if database.yml file is correct."
+    exit 1
+  fi
+
+  if ! exec_query "show create table users"; then
+    seed_db
+  fi
+}
 
 echo "~~ Starting Gitorious..."
-
-if [[ ! -d $DATADIR/repositories ]]; then
-  echo "~~ Creating data directories at $DATADIR..."
-  mkdir -p $DATADIR/repositories
-  mkdir -p $DATADIR/tarball-cache
-  mkdir -p $DATADIR/tarball-work
-  chown -R git:git $DATADIR
-fi
-
-if [[ ! -d $CONFIGDIR ]]; then
-  echo "~~ Creating config directory $CONFIGDIR and copying default config files..."
-  mkdir -p $CONFIGDIR
-  cp $TEMPLATESDIR/gitorious.yml $CONFIGDIR
-  cp $TEMPLATESDIR/mailer.rb $CONFIGDIR
-fi
-
-if [[ -n $GITORIOUS_DATABASE_URL ]]; then
-  echo "~~ Using provided \$GITORIOUS_DATABASE_URL=$GITORIOUS_DATABASE_URL for database connection"
-  export DATABASE_URL=$GITORIOUS_DATABASE_URL
-elif [[ -n $GITORIOUS_DB_PORT_3306_TCP_ADDR ]]; then
-  echo "~~ Using linked container \"gitorious_db\" for database connection"
-  export DATABASE_URL="mysql2://root@$GITORIOUS_DB_PORT_3306_TCP_ADDR:$GITORIOUS_DB_PORT_3306_TCP_PORT/gitorious?encoding=utf8"
-else
-  echo "~~ Using embedded MySQL instance for database connection"
-
-  if [[ -d $DATADIR/mysql ]]; then
-    /usr/bin/mysqld_safe >/dev/null 2>&1 &
-  else
-    echo "~~ Creating MySQL database..."
-    cp -r /var/lib/mysql-template $DATADIR/mysql && chown -R mysql:mysql $DATADIR/mysql
-    /usr/bin/mysqld_safe >/dev/null 2>&1 &
-    sleep 5
-    echo "create database gitorious; grant all privileges on gitorious.* to gitorious@localhost identified by 'yourpassword'" | mysql -u root
-  fi
-fi
+ensure_data_directories
+ensure_config_files
+setup_db
 
 exec "$@"

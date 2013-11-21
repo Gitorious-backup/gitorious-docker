@@ -1,0 +1,23 @@
+# Gitorious database configuration
+#
+# note: localhost == ...
+# Default, embedded
+
+production:
+  adapter: mysql2
+  database: gitorious
+  username: gitorious
+  password: yourpassword
+  host: localhost
+  encoding: utf8
+
+# Linked container
+#
+# production:
+#   adapter: mysql2
+#   database: gitorious
+#   username: gitorious
+#   password: yourpassword
+#   host: <%= ENV['GITORIOUS_DB_PORT_3306_TCP_ADDR'] %>
+#   port: <%= ENV['GITORIOUS_DB_PORT_3306_TCP_PORT'] %>
+#   encoding: utf8

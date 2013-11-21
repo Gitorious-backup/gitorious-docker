@@ -32,11 +32,11 @@ ADD . /srv/gitorious/docker
 
 RUN echo "#!/bin/sh\n\nexec /srv/gitorious/app/bin/gitorious \"\$@\"" > /usr/bin/gitorious && chmod a+x /usr/bin/gitorious
 
-RUN ln -s /srv/gitorious/docker/config/database.yml /srv/gitorious/app/config/database.yml; \
-    ln -s /srv/gitorious/docker/config/unicorn.rb /srv/gitorious/app/config/unicorn.rb; \
+RUN ln -s /srv/gitorious/docker/config/unicorn.rb /srv/gitorious/app/config/unicorn.rb; \
     ln -s /srv/gitorious/docker/config/memcache.yml /srv/gitorious/app/config/memcache.yml
 
-RUN ln -s /var/lib/gitorious/config/gitorious.yml /srv/gitorious/app/config/; \
+RUN ln -s /var/lib/gitorious/config/database.yml /srv/gitorious/app/config/; \
+    ln -s /var/lib/gitorious/config/gitorious.yml /srv/gitorious/app/config/; \
     ln -s /var/lib/gitorious/config/mailer.rb /srv/gitorious/app/config/initializers/
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf; \
