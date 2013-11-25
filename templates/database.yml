@@ -1,7 +1,10 @@
 # Gitorious database configuration
-#
-# note: localhost == ...
-# Default, embedded
+
+# The following configuration uses the embedded MySQL instance. Feel free to
+# change it to your own MySQL instance address.
+
+# NOTE: "localhost" refers to the container. If you want to use container host
+# machine for db host setting then use IP address or FQDN instead.
 
 production:
   adapter: mysql2
@@ -10,14 +13,3 @@ production:
   password: yourpassword
   host: localhost
   encoding: utf8
-
-# Linked container
-#
-# production:
-#   adapter: mysql2
-#   database: gitorious
-#   username: gitorious
-#   password: yourpassword
-#   host: <%= ENV['GITORIOUS_DB_PORT_3306_TCP_ADDR'] %>
-#   port: <%= ENV['GITORIOUS_DB_PORT_3306_TCP_PORT'] %>
-#   encoding: utf8
