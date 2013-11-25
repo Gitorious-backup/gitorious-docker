@@ -24,11 +24,11 @@ RUN echo "root:docker" | chpasswd
 
 RUN su git -c "git clone git://gitorious.org/gitorious/mainline.git /srv/gitorious/app; \
                cd /srv/gitorious/app; \
-               git checkout a9c1b24; \
+               git checkout babbc45; \
                git submodule update --recursive --init; \
                bundle install --deployment --without development test"
 
-ADD . /srv/gitorious/docker
+RUN apt-get -y install postfix
 
 RUN echo "#!/bin/sh\n\nexec /srv/gitorious/app/bin/gitorious \"\$@\"" > /usr/bin/gitorious && chmod a+x /usr/bin/gitorious
 
@@ -37,7 +37,7 @@ RUN ln -s /srv/gitorious/docker/config/unicorn.rb /srv/gitorious/app/config/unic
 
 RUN ln -s /var/lib/gitorious/config/database.yml /srv/gitorious/app/config/; \
     ln -s /var/lib/gitorious/config/gitorious.yml /srv/gitorious/app/config/; \
-    ln -s /var/lib/gitorious/config/mailer.rb /srv/gitorious/app/config/initializers/
+    ln -s /var/lib/gitorious/config/smtp.yml /srv/gitorious/app/config/
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf; \
     ln -fs /srv/gitorious/docker/config/nginx.conf /etc/nginx/sites-enabled/default
@@ -49,6 +49,10 @@ RUN ln -s /var/lib/gitorious/data/mysql /var/lib/mysql
 RUN mkdir -p /home/git/.ssh && touch /home/git/.ssh/authorized_keys; \
     chown -R git:git /home/git/.ssh; \
     chmod 0700 /home/git/.ssh && chmod 0600 /home/git/.ssh/authorized_keys
+
+ADD . /srv/gitorious/docker
+
+RUN su git -c "cd /srv/gitorious/app && git fetch && git checkout b4c7677"
 
 VOLUME ["/var/lib/gitorious"]
 

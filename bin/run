@@ -15,6 +15,11 @@ MYSQL_DB=gitorious
 MYSQL_USER=gitorious
 MYSQL_PASS=yourpassword
 
+function set_fqdn {
+  echo $HOST_FQDN >/etc/mailname
+  postconf -e myhostname=$HOST_FQDN
+}
+
 function ensure_data_directories {
   if [[ ! -d $DATADIR/repositories ]]; then
     echo "~~ Creating data directories at $DATADIR..."
@@ -31,7 +36,7 @@ function ensure_config_files {
     mkdir -p $CONFIGDIR
     cp $TEMPLATESDIR/gitorious.yml $CONFIGDIR
     cp $TEMPLATESDIR/database.yml $CONFIGDIR
-    cp $TEMPLATESDIR/mailer.rb $CONFIGDIR
+    cp $TEMPLATESDIR/smtp.yml $CONFIGDIR
   fi
 }
 
@@ -84,9 +89,15 @@ function setup_db {
   fi
 }
 
+function start_postfix {
+  /etc/init.d/postfix start
+}
+
 echo "~~ Starting Gitorious..."
+set_fqdn
 ensure_data_directories
 ensure_config_files
 setup_db
+start_postfix
 
 exec "$@"
