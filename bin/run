@@ -59,9 +59,6 @@ function seed_db {
     echo "~~ Loading schema into the database..."
     bin/rake db:schema:load >/dev/null 2>&1
 
-    # echo "~~ Creating Sphinx index..."
-    # bin/rake ts:index
-
     # echo "~~ Adding first user..."
     # bin/create-user
 EOS
