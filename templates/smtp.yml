@@ -3,8 +3,8 @@
 # The following configuration uses the embedded Postfix instance. Feel free to
 # change it to your own SMTP server address.
 
-# NOTE: "localhost" refers to the container. If you want to use container host
-# machine for SMTP address setting then use IP address or FQDN instead.
+# NOTE: "localhost" refers to the container. If you want to use container's host
+# machine as SMTP address then use IP address or FQDN instead.
 
 production:
   address: localhost
