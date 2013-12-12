@@ -6,18 +6,16 @@
 # NOTE: "localhost" refers to the container. If you want to use container's host
 # machine as SMTP address then use IP address or FQDN instead.
 
-production:
-  address: localhost
-  port: 25
-  openssl_verify_mode: none
+address: localhost
+port: 25
+openssl_verify_mode: none
 
 # Example Gmail configuration:
-#
-# production:
-#   address: "smtp.gmail.com"
-#   port: 587
-#   domain: "example.com"
-#   authentication: "plain"
-#   enable_starttls_auto: true
-#   user_name: 'foo'
-#   password: 'bar'
+
+# address: "smtp.gmail.com"
+# port: 587
+# domain: "example.com"
+# authentication: "plain"
+# enable_starttls_auto: true
+# user_name: 'foo'
+# password: 'bar'
