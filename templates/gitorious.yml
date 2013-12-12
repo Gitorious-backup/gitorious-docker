@@ -1,0 +1,4 @@
+scheme: http
+host: localhost # <- replace this with your FQDN, i.e. gitorious.company.com
+port: 7080
+ssh_daemon_port: 7022

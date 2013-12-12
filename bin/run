@@ -14,19 +14,10 @@ MYSQL_DB=gitorious
 MYSQL_USER=gitorious
 MYSQL_PASS=yourpassword
 
-function erb {
-  ruby -e "
-    require 'erb'
-    input = File.read('$1')
-    erb = ERB.new(input)
-    output = erb.result
-    File.open('$2', 'w') { |f| f.write(output) }
-  "
-}
-
 function set_fqdn {
-  echo $HOST_FQDN >/etc/mailname
-  postconf -e myhostname=$HOST_FQDN
+  fqdn=$(grep '^host:' $CONFIGDIR/gitorious.yml | awk '{ print $2 }')
+  echo $fqdn >/etc/mailname
+  postconf -e myhostname=$fqdn
 }
 
 function ensure_data_directories {
@@ -43,7 +34,7 @@ function ensure_config_files {
   if [[ ! -d $CONFIGDIR ]]; then
     echo "~~ Creating config directory at $CONFIGDIR and copying config files..."
     mkdir -p $CONFIGDIR
-    erb $TEMPLATESDIR/gitorious.yml.erb $CONFIGDIR/gitorious.yml
+    cp $TEMPLATESDIR/gitorious.yml $CONFIGDIR
     cp $TEMPLATESDIR/database.yml $CONFIGDIR
     cp $TEMPLATESDIR/smtp.yml $CONFIGDIR
   fi
