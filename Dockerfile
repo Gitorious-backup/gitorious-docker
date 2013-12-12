@@ -54,6 +54,7 @@ RUN mkdir -p /home/git/.ssh && touch /home/git/.ssh/authorized_keys; \
 ADD . /srv/gitorious/docker
 
 RUN su git -c "cd /srv/gitorious/app && git fetch && git checkout b4c7677"
+RUN su git -c "cd /srv/gitorious/app && git fetch && git checkout a68a9f4 && bundle install --deployment --without development test"
 
 VOLUME ["/var/lib/gitorious"]
 
