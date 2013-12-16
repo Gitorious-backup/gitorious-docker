@@ -91,9 +91,9 @@ function start_postfix {
 }
 
 echo "~~ Starting Gitorious..."
-set_fqdn
 ensure_data_directories
 ensure_config_files
+set_fqdn
 setup_db
 start_postfix
 
