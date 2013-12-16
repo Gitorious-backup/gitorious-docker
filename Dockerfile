@@ -10,7 +10,7 @@ RUN apt-get -y install build-essential curl git redis-server \
                git-daemon-sysvinit nginx supervisor sphinxsearch \
                openssh-server mysql-client mysql-server libmysqlclient-dev \
                ruby ruby-dev rake libxml2-dev libxslt1-dev \
-               libreadline6 libicu-dev memcached imagemagick
+               libreadline6 libicu-dev memcached imagemagick postfix
 
 RUN mkdir /var/run/sshd
 
@@ -27,8 +27,6 @@ RUN su git -c "git clone git://gitorious.org/gitorious/mainline.git /srv/gitorio
                git checkout babbc45; \
                git submodule update --recursive --init; \
                bundle install --deployment --without development test"
-
-RUN apt-get -y install postfix
 
 RUN echo "#!/bin/sh\n\nexec /srv/gitorious/app/bin/gitorious \"\$@\"" > /usr/bin/gitorious && chmod a+x /usr/bin/gitorious
 
