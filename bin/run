@@ -87,7 +87,7 @@ function setup_db {
 }
 
 function start_postfix {
-  /etc/init.d/postfix start
+  /etc/init.d/postfix start >/dev/null
 }
 
 echo "~~ Starting Gitorious..."
