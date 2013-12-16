@@ -47,6 +47,8 @@ RUN mkdir -p /home/git/.ssh && touch /home/git/.ssh/authorized_keys; \
     chown -R git:git /home/git/.ssh; \
     chmod 0700 /home/git/.ssh && chmod 0600 /home/git/.ssh/authorized_keys
 
+RUN mkdir /root/.ssh && ln -s /var/lib/gitorious/config/authorized_keys /root/.ssh/authorized_keys
+
 RUN su git -c "cd /srv/gitorious/app && \
                git fetch && \
                git checkout 47295d6 && \
