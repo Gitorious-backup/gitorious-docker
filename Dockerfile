@@ -57,6 +57,8 @@ RUN ln -s /var/lib/gitorious/config/database.yml /srv/gitorious/app/config/; \
     ln -s /var/lib/gitorious/config/gitorious.yml /srv/gitorious/app/config/; \
     ln -s /var/lib/gitorious/config/smtp.yml /srv/gitorious/app/config/
 
+RUN rm /etc/mysql/my.cnf && ln -s /srv/gitorious/docker/config/my.cnf /etc/mysql/my.cnf
+
 ADD . /srv/gitorious/docker
 
 VOLUME ["/var/lib/gitorious"]
