@@ -9,7 +9,7 @@ RUN apt-get -y update
 RUN apt-get -y install build-essential curl git redis-server \
                git-daemon-sysvinit nginx supervisor sphinxsearch \
                openssh-server mysql-client mysql-server libmysqlclient-dev \
-               libpq-dev ruby ruby-dev rake libxml2-dev libxslt1-dev \
+               ruby ruby-dev rake libxml2-dev libxslt1-dev \
                libreadline6 libicu-dev memcached imagemagick
 
 RUN mkdir /var/run/sshd
