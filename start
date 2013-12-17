@@ -12,4 +12,4 @@ if [[ $1 == "/bin/bash" ]]; then
   DOCKER_OPTIONS="-t -i"
 fi
 
-exec sudo docker run ${PORT_OPTIONS} ${VOLUME_OPTIONS} ${DOCKER_OPTIONS} sickill/gitorious:latest "$@"
+exec sudo docker run ${PORT_OPTIONS} ${VOLUME_OPTIONS} ${DOCKER_OPTIONS} gitorious/gitorious:latest "$@"
