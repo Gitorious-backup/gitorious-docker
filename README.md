@@ -129,6 +129,6 @@ When running Gitorious container under Vagrant you can clone/pull/push from
 either Vagrant's host system or the guest VM as the Vagrant port forwarding
 just maps the ports to the same numbers (see Vagrantfile).
 
-NOTE: when running the container in Vagrant "host" term used in several places
+NOTE: when running the container in Vagrant, "host" term used in several places
 in this documentation refers to Vagrant's guest (which is a host for the Docker
 container at the same time).
