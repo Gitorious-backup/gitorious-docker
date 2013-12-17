@@ -93,7 +93,7 @@ _database.yml_ file and point it to your database.
 ### Note on email delivery
 
 The image contains an internal Postfix instance that is used by default. It is
-a default Postfix installation that should work fine for testing, however you
+a basic Postfix installation that should work fine for testing, however you
 should use your own SMTP server to ensure reliable email delivery. To point
 Gitorious to your SMTP server edit _smtp.yml_ file.
 
@@ -128,3 +128,7 @@ To do so run the following commands:
 When running Gitorious container under Vagrant you can clone/pull/push from
 either Vagrant's host system or the guest VM as the Vagrant port forwarding
 just maps the ports to the same numbers (see Vagrantfile).
+
+NOTE: when running the container in Vagrant "host" term used in several places
+in this documentation refers to Vagrant's guest (which is a host for the Docker
+container at the same time).
