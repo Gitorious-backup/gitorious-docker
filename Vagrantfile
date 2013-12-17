@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+Vagrant.require_version ">= 1.4"
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -16,5 +18,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
-  config.vm.provision "shell", inline: "curl https://get.docker.io/gpg | apt-key add - && echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list && apt-get update -y && apt-get -y install linux-image-extra-`uname -r` lxc-docker"
+  config.vm.provision "docker"
 end
