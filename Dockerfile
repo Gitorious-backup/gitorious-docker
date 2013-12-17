@@ -43,7 +43,7 @@ RUN mkdir -p /srv/gitorious && chown git:git /srv/gitorious
 # checkout and build the app in /srv/gitorious/app
 RUN su git -c "git clone git://gitorious.org/gitorious/mainline.git /srv/gitorious/app; \
                cd /srv/gitorious/app; \
-               git checkout d501593; \
+               git checkout 445384d; \
                git submodule update --recursive --init; \
                bundle install --deployment --without development test postgres && \
                bundle exec rake assets:precompile"
