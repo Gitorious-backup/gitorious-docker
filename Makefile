@@ -1,7 +1,7 @@
 all: build
 
 build:
-	sudo docker build -t sickill/gitorious .
+	sudo docker build -t gitorious/gitorious .
 
 push:
-	sudo docker push sickill/gitorious
+	sudo docker push gitorious/gitorious
