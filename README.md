@@ -3,8 +3,9 @@
 NOTE: this is a fully working image but it needs a bit more testing to be
 production ready.
 
-Gitorious Docker image includes the full set of Gitorious applications and
-services and is the simplest way to get Gitorious running on your own server.
+Gitorious [Docker](http://www.docker.io/) image includes the full set of
+Gitorious applications and services and is the simplest way to get Gitorious
+running on your own server.
 
 ## Basic concepts
 
@@ -62,7 +63,7 @@ You can use the provided `start` script that makes it easier by defaulting to:
 Look at this script to get familiar with starting the container. Also feel
 free to adjust the values in it until you're happy with your setup.
 
-Booting the application with all its components should not take longer than 30
+Booting the application with all its components should not take longer than 60
 seconds. You should then be able to access Gitorious at
 [http://localhost:7080/](http://localhost:7080/).
 
@@ -81,6 +82,8 @@ It contains the following files:
 * database.yml - database connection configuration,
 * smtp.yml - SMTP server connection configuration.
 
+TODO: write about setting proper host/port in gitorious.yml
+
 Feel free to edit these files to suit your specific needs.
 
 ### Note on a database
@@ -96,6 +99,10 @@ The image contains an internal Postfix instance that is used by default. It is
 a basic Postfix installation that should work fine for testing, however you
 should use your own SMTP server to ensure reliable email delivery. To point
 Gitorious to your SMTP server edit _smtp.yml_ file.
+
+## Inspecting the running container as root
+
+TODO: describe
 
 ## Building the image
 
@@ -114,9 +121,10 @@ There's a Makefile that simplifies the above to:
 ## Trying Gitorious Docker image in Vagrant
 
 If you just want to check out Gitorious and you don't want to install Docker on
-your system yet you can first run it in a Vagrant VM.
+your system yet you can first run it in a [Vagrant](http://www.vagrantup.com/)
+VM.
 
-To do so run the following commands:
+To do so make sure you have at least Vagrant 1.4 and run the following commands:
 
     git clone https://git.gitorious.org/gitorious/gitorious-docker.git
     cd gitorious-docker
