@@ -33,11 +33,11 @@ use `-p 2222` as an option to ssh command when connecting to the host later).
 
 ### Data volume
 
-Gitorious container keeps its state at /var/lib/gitorious (this is the
-internal, container path). It keeps repository data, caches and config files in
-it. This allows for stopping and starting new containers from the same image
-without losing all the data and custom configuration. It will also ease the
-upgrade process in the future.
+Gitorious container keeps its state at _/var/lib/gitorious_ (this is the
+internal, container path) which is exposed as Docker's volume. It keeps
+repository data, caches and config files in it. This allows for stopping and
+starting new containers from the same image without losing all the data and
+custom configuration. It will also ease the upgrade process in the future.
 
 You want to map this volume to a directory on the host. We recommend to map to
 the same directory name (_/var/lib/gitorious_):
@@ -59,7 +59,7 @@ You can use the provided `start` script that makes it easier by defaulting to:
 * `-p 7080:80 -p 7022:22 -p 9418:9418` for port forwarding,
 * `-v /var/lib/gitorious:/var/lib/gitorious` for volume mapping.
 
-Looks at this script to get familiar with starting the container. Also feel
+Look at this script to get familiar with starting the container. Also feel
 free to adjust the values in it until you're happy with your setup.
 
 Booting the application with all its components should not take longer than 30
@@ -70,7 +70,32 @@ To stop the container just hit ctrl-c.
 
 ## Configuration
 
-TODO
+The data volume mentioned in the previous paragraphs includes the _config_
+directory that keeps several config files. If you've followed the above example
+(and you haven't used a different volume mapping) you can find it mounted at
+_/var/lib/gitorious/data/config_ on the host system.
+
+It contains the following files:
+
+* gitorious.yml - main Gitorious configuration file,
+* database.yml - database connection configuration,
+* smtp.yml - SMTP server connection configuration.
+
+Feel free to edit these files to suit your specific needs.
+
+### Note on a database
+
+The image contains an internal MySQL instance that is used by default. It keeps
+its data files at _/var/lib/gitorious/data/mysql_ (and you should not touch
+this directory). If you want to use your own MySQL instance then just edit
+_database.yml_ file and point it to your database.
+
+### Note on email delivery
+
+The image contains an internal Postfix instance that is used by default. It is
+a default Postfix installation that should work fine for testing, however you
+should use your own SMTP server to ensure reliable email delivery. To point
+Gitorious to your SMTP server edit _smtp.yml_ file.
 
 ## Building the image
 
