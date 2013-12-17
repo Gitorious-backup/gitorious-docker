@@ -28,8 +28,8 @@ RUN apt-get -y install build-essential curl git redis-server \
 RUN gem install bundler --no-rdoc --no-ri
 
 # install Gitorious vhost and make nginx not daemonize
-RUN ln -fs /srv/gitorious/docker/config/nginx.conf /etc/nginx/sites-enabled/default; \
-    echo "daemon off;" >> /etc/nginx/nginx.conf
+RUN ln -fs /srv/gitorious/docker/config/nginx/nginx.conf /etc/nginx/nginx.conf; \
+    ln -fs /srv/gitorious/docker/config/nginx/gitorious.conf /etc/nginx/sites-enabled/default
 
 # setup MySQL
 RUN mysql_install_db
