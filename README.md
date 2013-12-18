@@ -34,14 +34,14 @@ use `-p 2222` as an option to `ssh` command when connecting to the host later).
 
 ### Data volume
 
-Gitorious container keeps its state at _/var/lib/gitorious_ (this is the
+Gitorious container keeps its state at `/var/lib/gitorious` (this is the
 internal, container path) which is exposed as Docker's volume. It keeps
 repository data, caches and config files in it. This allows for stopping and
 starting new containers from the same image without losing all the data and
 custom configuration. It will also ease the upgrade process in the future.
 
 You want to map this volume to a directory on the host. We recommend to map to
-the same directory name (_/var/lib/gitorious_):
+the same directory name (`/var/lib/gitorious`):
 
     -v /var/lib/gitorious:/var/lib/gitorious
 
@@ -78,10 +78,10 @@ options you can use when starting the container.
 
 ## Configuration
 
-The data volume mentioned in the previous paragraphs includes the _config_
+The data volume mentioned in the previous paragraphs includes the `config`
 directory that keeps several config files. If you've followed the above example
 (and you haven't used a different volume mapping) you can find it mounted at
-_/var/lib/gitorious/data/config_ on the host system.
+`/var/lib/gitorious/data/config` on the host system.
 
 It contains the following files:
 
@@ -89,21 +89,21 @@ It contains the following files:
 * database.yml - database connection configuration,
 * smtp.yml - SMTP server connection configuration.
 
-You should edit _gitorious.yml_ and set:
+You should edit `gitorious.yml` and set:
 
-* _host_, _port_ and _scheme_ to match the ones your users will use when
+* `host`, `port` and `scheme` to match the ones your users will use when
   accessing Gitorious via the web browser. Host should be set to a proper FQDN
   and port should be set to the one you specified in the port mapping in the
   previous section,
-* *ssh_daemon_port* to match the public ssh port that users will use for
+* `ssh_daemon_port` to match the public ssh port that users will use for
   clone/pull/push over ssh protocol. This also should be set to the one you
   specified in the port mapping in the previous section.
 
 Feel free to edit these files to suit your specific needs.
 
 NOTE: if you used the example port mapping like shown in the previous section
-(7080 for http, 7022 for ssh) the only thing you should set in _gitorious.yml_
-is the _host_ setting. If you're just playing with Gitorious you can even skip
+(7080 for http, 7022 for ssh) the only thing you should set in `gitorious.yml`
+is the `host` setting. If you're just playing with Gitorious you can even skip
 this one as it only affects the generated URLs and defaults to localhost.
 
 NOTE: when you make a change to any of the config files you have to restart the
@@ -112,22 +112,22 @@ container for changes to take effect.
 ### Note on a database
 
 The image contains an internal MySQL instance that is used by default. It keeps
-its data files at _/var/lib/gitorious/data/mysql_ (and you should not touch
+its data files at `/var/lib/gitorious/data/mysql` (and you should not touch
 this directory). If you want to use your own MySQL instance then just edit
-_database.yml_ file and point it to your database.
+`database.yml` file and point it to your database.
 
 ### Note on email delivery
 
 The image contains an internal Postfix instance that is used by default. It is
 a basic Postfix installation that should work fine for testing, however you
 should use your own SMTP server to ensure reliable email delivery. To point
-Gitorious to your SMTP server edit _smtp.yml_ file.
+Gitorious to your SMTP server edit `smtp.yml` file.
 
 ## Inspecting the running container
 
 If you would like to inspect the running container you can access it via ssh as
 a root user. There's no password set for root and the authentication is key
-based. Put your public key in the _/var/lib/gitorious/config/authorized_keys_
+based. Put your public key in the `/var/lib/gitorious/config/authorized_keys`
 file and log in using the mapped ssh port:
 
     cat ~/.ssh/id_rsa.pub | sudo tee /var/lib/gitorious/config/authorized_keys
