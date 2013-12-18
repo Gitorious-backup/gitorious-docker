@@ -85,9 +85,9 @@ directory that keeps several config files. If you've followed the above example
 
 It contains the following files:
 
-* gitorious.yml - main Gitorious configuration file,
-* database.yml - database connection configuration,
-* smtp.yml - SMTP server connection configuration.
+* `gitorious.yml` - main Gitorious configuration file,
+* `database.yml` - database connection configuration,
+* `smtp.yml` - SMTP server connection configuration.
 
 You should edit `gitorious.yml` and set:
 
