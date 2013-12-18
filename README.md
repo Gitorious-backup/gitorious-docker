@@ -123,9 +123,15 @@ a basic Postfix installation that should work fine for testing, however you
 should use your own SMTP server to ensure reliable email delivery. To point
 Gitorious to your SMTP server edit _smtp.yml_ file.
 
-## Inspecting the running container as root
+## Inspecting the running container
 
-TODO: describe
+If you would like to inspect the running container you can access it via ssh as
+a root user. There's no password set for root and the authentication is key
+based. Put your public key in the _/var/lib/gitorious/config/authorized_keys_
+file and log in using the mapped ssh port:
+
+    cat ~/.ssh/id_rsa.pub | sudo tee /var/lib/gitorious/config/authorized_keys
+    ssh root@localhost -p 7022
 
 ## Building the image
 
