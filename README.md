@@ -9,8 +9,8 @@ running on your own server.
 
 ## Basic concepts
 
-Please read this chapter about the basic concepts of this image (and Docker in
-general).
+Please read this chapter, which is about the basic concepts of this image (and
+Docker in general) that you should first understand.
 
 NOTE: it assumed that you have correctly installed Docker on the machine that
 is meant to host Gitorious. See [the official Docker installation
@@ -30,7 +30,7 @@ options:
 NOTE: Container runs its own sshd instance. Mapping container's ssh port to
 host's port 22 requires you to first free this port on the host. You can change
 the port number of ssh daemon that runs on the host to for example 2222 (and
-use `-p 2222` as an option to ssh command when connecting to the host later).
+use `-p 2222` as an option to `ssh` command when connecting to the host later).
 
 ### Data volume
 
@@ -44,6 +44,9 @@ You want to map this volume to a directory on the host. We recommend to map to
 the same directory name (_/var/lib/gitorious_):
 
     -v /var/lib/gitorious:/var/lib/gitorious
+
+NOTE: It is highly recommended to do a frequent backup of this directory as it keeps
+all the precious data (repositories and database files).
 
 ## Starting the container
 
@@ -69,6 +72,10 @@ seconds. You should then be able to access Gitorious at
 
 To stop the container just hit ctrl-c.
 
+See [documentation of the docker run
+command](http://docs.docker.io/en/latest/commandline/cli/#run) for additional
+options you can use when starting the container.
+
 ## Configuration
 
 The data volume mentioned in the previous paragraphs includes the _config_
@@ -82,9 +89,25 @@ It contains the following files:
 * database.yml - database connection configuration,
 * smtp.yml - SMTP server connection configuration.
 
-TODO: write about setting proper host/port in gitorious.yml
+You should edit _gitorious.yml_ and set:
+
+* _host_, _port_ and _scheme_ to match the ones your users will use when
+  accessing Gitorious via the web browser. Host should be set to a proper FQDN
+  and port should be set to the one you specified in the port mapping in the
+  previous section,
+* _ssh_daemon_port_ to match the public ssh port that users will use for
+* clone/pull/push over ssh protocol. This also should be set to the one you
+* specified in the port mapping in the previous section.
 
 Feel free to edit these files to suit your specific needs.
+
+NOTE: if you used the example port mapping like shown in the previous section
+(7080 for http, 7022 for ssh) the only thing you should set in _gitorious.yml_
+is the _host_ setting. If you're just playing with Gitorious you can even skip
+this one as it only affects the generated URLs and defaults to localhost.
+
+NOTE: when you make a change to any of the config files you have to restart the
+container for changes to take effect.
 
 ### Note on a database
 
@@ -134,8 +157,10 @@ To do so make sure you have at least Vagrant 1.4 and run the following commands:
     ./start
 
 When running Gitorious container under Vagrant you can clone/pull/push from
-either Vagrant's host system or the guest VM as the Vagrant port forwarding
-just maps the ports to the same numbers (see Vagrantfile).
+either Vagrant's host system or Vagrant's guest VM. The example port
+configuration (7080 for http, 7022 for ssh, 9418 for git) is also reflected in
+Vagrant's port mapping which just maps the ports to the same numbers (see
+Vagrantfile).
 
 NOTE: when running the container in Vagrant, "host" term used in several places
 in this documentation refers to Vagrant's guest (which is a host for the Docker
