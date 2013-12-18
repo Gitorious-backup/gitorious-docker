@@ -95,7 +95,7 @@ You should edit _gitorious.yml_ and set:
   accessing Gitorious via the web browser. Host should be set to a proper FQDN
   and port should be set to the one you specified in the port mapping in the
   previous section,
-* _ssh\_daemon\_port_ to match the public ssh port that users will use for
+* *ssh_daemon_port* to match the public ssh port that users will use for
   clone/pull/push over ssh protocol. This also should be set to the one you
   specified in the port mapping in the previous section.
 
