@@ -5,11 +5,7 @@ set -e
 HOST_DATA_DIR=/var/lib/gitorious
 VOLUME_OPTIONS="-v $HOST_DATA_DIR:/var/lib/gitorious"
 PORT_OPTIONS="-p 7080:80 -p 7022:22 -p 9418:9418"
+DOCKER_OPTIONS="-t -i"
 
 sudo mkdir -p $HOST_DATA_DIR
-
-if [[ $1 == "/bin/bash" ]]; then
-  DOCKER_OPTIONS="-t -i"
-fi
-
 exec sudo docker run ${PORT_OPTIONS} ${VOLUME_OPTIONS} ${DOCKER_OPTIONS} gitorious/gitorious:latest "$@"
