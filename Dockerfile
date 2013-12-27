@@ -56,7 +56,8 @@ RUN ln -s /srv/gitorious/docker/config/unicorn.rb /srv/gitorious/app/config/; \
 # symlink external (exposed) config files
 RUN ln -s /var/lib/gitorious/config/database.yml /srv/gitorious/app/config/; \
     ln -s /var/lib/gitorious/config/gitorious.yml /srv/gitorious/app/config/; \
-    ln -s /var/lib/gitorious/config/smtp.yml /srv/gitorious/app/config/
+    ln -s /var/lib/gitorious/config/smtp.yml /srv/gitorious/app/config/; \
+    ln -s /var/lib/gitorious/config/authentication.yml /srv/gitorious/app/config/
 
 # expose log files
 RUN rm -rf /srv/gitorious/app/log && ln -s /var/lib/gitorious/data/logs /srv/gitorious/app/log
