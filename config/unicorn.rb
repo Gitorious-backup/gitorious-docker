@@ -1,4 +1,9 @@
-worker_processes 4
+if ENV['GITORIOUS_WEB_WORKERS']
+  worker_processes ENV['GITORIOUS_WEB_WORKERS'].to_i
+else
+  worker_processes `cat /proc/cpuinfo | grep "^processor" | wc -l`.to_i * 2
+end
+
 working_directory "/srv/gitorious/app"
 timeout 30
 listen 3000
