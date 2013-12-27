@@ -26,6 +26,7 @@ function ensure_data_directories {
     mkdir -p $DATADIR/repositories
     mkdir -p $DATADIR/tarball-cache
     mkdir -p $DATADIR/tarball-work
+    mkdir -p $DATADIR/logs
     chown -R git:git $DATADIR
   fi
 }
