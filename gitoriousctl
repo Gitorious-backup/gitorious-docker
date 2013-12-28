@@ -4,12 +4,15 @@ set -e
 
 HOST_DATA_DIR="/var/lib/gitorious"
 CIDFILE="$HOST_DATA_DIR/gitorious.cid"
+HTTP_PORT=7080
+SSH_PORT=7022
+GIT_PORT=9418
 
 case "$1" in
   start)
     echo "Starting Gitorious container..."
     VOLUME_OPTIONS="-v $HOST_DATA_DIR:/var/lib/gitorious"
-    PORT_OPTIONS="-p 7080:80 -p 7022:22 -p 9418:9418"
+    PORT_OPTIONS="-p $HTTP_PORT:80 -p $SSH_PORT:22 -p $GIT_PORT:9418"
     OTHER_OPTIONS="-d -cidfile $CIDFILE"
     IMAGE="gitorious/gitorious:latest"
     sudo mkdir -p $HOST_DATA_DIR
@@ -25,7 +28,10 @@ case "$1" in
     CID=`cat $CIDFILE`
     sudo docker ps -q -notrunc | grep $CID >/dev/null && echo "running ($CID)" || (echo "not running" && exit 1)
     ;;
+  ssh)
+    cat ~/.ssh/id_rsa.pub | sudo tee /var/lib/gitorious/config/authorized_keys >/dev/null && ssh root@localhost -p $SSH_PORT
+    ;;
   *)
-    echo "usage: gitoriousctl start|stop|status"
+    echo "usage: gitoriousctl start|stop|status|ssh"
     ;;
 esac
