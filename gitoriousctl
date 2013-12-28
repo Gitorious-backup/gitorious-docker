@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+
+HOST_DATA_DIR="/var/lib/gitorious"
+CIDFILE="$HOST_DATA_DIR/gitorious.cid"
+
+case "$1" in
+  start)
+    echo "Starting Gitorious container..."
+    VOLUME_OPTIONS="-v $HOST_DATA_DIR:/var/lib/gitorious"
+    PORT_OPTIONS="-p 7080:80 -p 7022:22 -p 9418:9418"
+    OTHER_OPTIONS="-d -cidfile $CIDFILE"
+    IMAGE="gitorious/gitorious:latest"
+    sudo mkdir -p $HOST_DATA_DIR
+    sudo docker run $PORT_OPTIONS $VOLUME_OPTIONS $OTHER_OPTIONS $IMAGE
+    ;;
+  stop)
+    echo "Stopping Gitorious container..."
+    sudo docker stop `cat $CIDFILE`
+    sudo rm -f $CIDFILE
+    ;;
+  status)
+    [[ -f $CIDFILE ]] || (echo "not running" && exit 1)
+    CID=`cat $CIDFILE`
+    sudo docker ps -q -notrunc | grep $CID >/dev/null && echo "running ($CID)" || (echo "not running" && exit 1)
+    ;;
+  *)
+    echo "usage: gitoriousctl start|stop|status"
+    ;;
+esac
