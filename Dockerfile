@@ -65,6 +65,9 @@ RUN rm -rf /srv/gitorious/app/log && ln -s /var/lib/gitorious/data/logs /srv/git
 # setup /usr/bin/gitorious so it executes bin/gitorious in the app dir
 RUN echo "#!/bin/sh\n\nexec /srv/gitorious/app/bin/gitorious \"\$@\"" > /usr/bin/gitorious && chmod a+x /usr/bin/gitorious
 
+# symlink supervisord config file
+RUN rm /etc/supervisor/supervisord.conf && ln -s /srv/gitorious/docker/config/supervisord.conf /etc/supervisor/supervisord.conf
+
 # copy all files from gitorious-docker repo to the image
 ADD . /srv/gitorious/docker
 
@@ -76,4 +79,4 @@ EXPOSE 22
 EXPOSE 9418
 
 ENTRYPOINT ["/srv/gitorious/docker/bin/run"]
-CMD ["supervisord", "-n", "-c", "/srv/gitorious/docker/config/supervisord.conf"]
+CMD ["supervisord", "-n"]
