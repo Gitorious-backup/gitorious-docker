@@ -89,7 +89,7 @@ Check if the container is running:
     ./gitoriousctl status
 
 If you know what your're doing and you want to inspect the running container
-from the inside you can ssh into the it with:
+from the inside you can ssh into it with:
 
     ./gitoriousctl ssh
 
