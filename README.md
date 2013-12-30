@@ -93,8 +93,9 @@ from the inside you can ssh into it with:
 
     ./gitoriousctl ssh
 
-Look at this script to get familiar with managing the container. Also feel
-free to adjust the values in it until you're happy with your setup.
+You can look at the `gitoriousctl` script to get familiar with managing the
+container. Also feel free to adjust the values in it until you're happy with
+your setup.
 
 Also, see [documentation of the docker run
 command](http://docs.docker.io/en/latest/commandline/cli/#run) for additional
@@ -111,7 +112,8 @@ It contains the following files:
 
 * `gitorious.yml` - main Gitorious configuration file,
 * `database.yml` - database connection configuration,
-* `smtp.yml` - SMTP server connection configuration.
+* `smtp.yml` - SMTP server connection configuration,
+* `authentication.yml` - authentication configuration.
 
 You should edit `gitorious.yml` and set:
 
@@ -184,7 +186,7 @@ To do so make sure you have at least Vagrant 1.4 and run the following commands:
     vagrant up
     vagrant ssh
     cd /vagrant
-    ./start
+    ./gitoriousctl start
 
 When running Gitorious container under Vagrant you can clone/pull/push from
 either Vagrant's host system or Vagrant's guest VM. The example port
