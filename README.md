@@ -179,7 +179,8 @@ If you just want to check out Gitorious and you don't want to install Docker on
 your system yet you can first run it in a [Vagrant](http://www.vagrantup.com/)
 VM.
 
-To do so make sure you have at least Vagrant 1.4 and run the following commands:
+To do so make sure you have at least Vagrant 1.4 and VirtualBox 4.3, then run
+the following commands:
 
     git clone https://git.gitorious.org/gitorious/gitorious-docker.git
     cd gitorious-docker
