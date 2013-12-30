@@ -1,11 +1,11 @@
 # Gitorious Docker image
 
-NOTE: this is a fully working image but it needs a bit more testing to be
-production ready.
-
 Gitorious [Docker](http://www.docker.io/) image includes the full set of
 Gitorious applications and services and is the simplest way to get Gitorious
 running on your own server.
+
+NOTE: this is a fully working image but it needs a bit more testing/feedback to
+be marked as "production ready".
 
 ## Basic concepts
 
@@ -48,7 +48,7 @@ the same directory name (`/var/lib/gitorious`):
 NOTE: It is highly recommended to do a frequent backup of this directory as it keeps
 all the precious data (repositories and database files).
 
-## Starting the container
+## Starting/stopping the container
 
 To start Gitorious container run the following command, replacing port and
 volume options with the ones that suit you best:
@@ -56,23 +56,44 @@ volume options with the ones that suit you best:
     sudo docker run ${PORT_OPTIONS} ${VOLUME_OPTIONS} gitorious/gitorious:latest
 
 On the first run Docker will need to download Gitorious image from the public
-Docker registry.
+Docker registry which will take a few minutes.
 
-You can use the provided `start` script that makes it easier by defaulting to:
+### The easy way: gitoriousctl
+
+You can use the provided `gitoriousctl` script (you may need to clone this
+repository first to get it) that makes starting, stopping and introspecting the
+container easier.
+
+Start the container with:
+
+    ./gitoriousctl start
+
+It runs the `docker run` command with the following options:
 
 * `-p 7080:80 -p 7022:22 -p 9418:9418` for port forwarding,
 * `-v /var/lib/gitorious:/var/lib/gitorious` for volume mapping.
-
-Look at this script to get familiar with starting the container. Also feel
-free to adjust the values in it until you're happy with your setup.
 
 Booting the application with all its components should not take longer than 60
 seconds. You should then be able to access Gitorious at
 [http://localhost:7080/](http://localhost:7080/).
 
-To stop the container just hit ctrl-c.
+Stop the container with:
 
-See [documentation of the docker run
+    ./gitoriousctl stop
+
+Check if the container is running:
+
+    ./gitoriousctl status
+
+If you know what your're doing and you want to inspect the running container
+from the inside you can ssh into the it with:
+
+    ./gitoriousctl ssh
+
+Look at this script to get familiar with managing the container. Also feel
+free to adjust the values in it until you're happy with your setup.
+
+Also, see [documentation of the docker run
 command](http://docs.docker.io/en/latest/commandline/cli/#run) for additional
 options you can use when starting the container.
 

@@ -20,6 +20,7 @@ case "$1" in
     ;;
   stop)
     echo "Stopping Gitorious container..."
+    [[ ! -f $CIDFILE ]] && echo "no $CIDFILE found" && exit 1
     sudo docker stop `cat $CIDFILE`
     sudo rm -f $CIDFILE
     ;;
