@@ -12,6 +12,9 @@ be marked as "production ready".
 Please read this chapter, which is about the basic concepts of this image (and
 Docker in general) that you should first understand.
 
+If you're in a hurry you can skip straight to **Starting/stopping the
+container - The easy way**.
+
 NOTE: it assumed that you have correctly installed Docker on the machine that
 is meant to host Gitorious. See [the official Docker installation
 instructions](http://www.docker.io/gettingstarted/#h_installation).
