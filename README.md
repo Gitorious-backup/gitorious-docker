@@ -15,7 +15,7 @@ Docker in general) that you should first understand.
 If you're in a hurry you can skip straight to **Starting/stopping the
 container - The easy way**.
 
-NOTE: it assumed that you have correctly installed Docker on the machine that
+NOTE: it's assumed that you have correctly installed Docker on the machine that
 is meant to host Gitorious. See [the official Docker installation
 instructions](http://www.docker.io/gettingstarted/#h_installation).
 
@@ -94,8 +94,8 @@ from the inside you can ssh into it with:
     ./gitoriousctl ssh
 
 You can look at the `gitoriousctl` script to get familiar with managing the
-container. Also feel free to adjust the values in it until you're happy with
-your setup.
+container. Also feel free to adjust the values in it (ports, directory paths)
+until you're happy with your setup.
 
 Also, see [documentation of the docker run
 command](http://docs.docker.io/en/latest/commandline/cli/#run) for additional
