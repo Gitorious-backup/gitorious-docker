@@ -189,6 +189,9 @@ the following commands:
     cd /vagrant
     ./gitoriousctl start
 
+Wait about 30-60 sec for all services to start up and then access Gitorious at
+[http://localhost:7080/](http://localhost:7080/).
+
 When running Gitorious container under Vagrant you can clone/pull/push from
 either Vagrant's host system or Vagrant's guest VM. The example port
 configuration (7080 for http, 7022 for ssh, 9418 for git) is also reflected in
