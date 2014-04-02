@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+mkdir -p /data/config /data/repositories /data/tarball-work /data/tarball-cache
+chown git:git /data/config /data/repositories /data/tarball-work /data/tarball-cache
+
+if [[ ! -e /data/config/gitorious.yml ]]; then
+    cp /srv/gitorious/templates/gitorious.yml /data/config/gitorious.yml
+    chown git:git /data/config/gitorious.yml
+fi
+
+if [[ ! -e /data/config/database.yml ]]; then
+    cp /srv/gitorious/templates/database.yml /data/config/database.yml
+    chown git:git /data/config/database.yml
+fi
+
+if [[ ! -e /data/config/smtp.yml ]]; then
+    cp /srv/gitorious/templates/smtp.yml /data/config/smtp.yml
+    chown git:git /data/config/smtp.yml
+fi
+
+cd /srv/gitorious/app && exec sudo -E -H -u git "$@"

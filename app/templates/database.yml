@@ -6,10 +6,17 @@
 # NOTE: "localhost" refers to the container. If you want to use container's host
 # machine as db host then use IP address or FQDN instead.
 
-production:
+common: &common
   adapter: mysql2
-  database: gitorious
-  username: gitorious
-  password: yourpassword
-  host: localhost
+  database: "<%= ENV['MYSQL_DATABASE'] || 'gitorious' %>"
+  username: "<%= ENV['MYSQL_USER'] || 'gitorious' %>"
+  password: "<%= ENV['MYSQL_PASSWORD'] || 'gitorious' %>"
+  host: "<%= ENV['MYSQL_PORT_3306_TCP_ADDR'] %>"
+  port: <%= ENV['MYSQL_PORT_3306_TCP_PORT'] %>
   encoding: utf8
+
+production:
+  <<: *common
+
+test:
+  <<: *common

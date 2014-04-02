@@ -1,0 +1,10 @@
+user: git
+frontend_server: nginx
+client_host: <%= (ENV['UNICORN_PORT_3000_TCP_ADDR'] || 3000).to_i %>
+client_port: <%= (ENV['UNICORN_PORT_3000_TCP_PORT'] || 3000).to_i %>
+repository_base_path: /data/repositories
+archive_cache_dir: /data/tarball-cache
+archive_work_dir: /data/tarball-work
+enable_repository_dir_sharding: false
+messaging_adapter: resque
+git_binary: /usr/bin/env git

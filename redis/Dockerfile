@@ -7,9 +7,10 @@ RUN apt-get -y update
 RUN apt-get -y install redis-server
 
 ADD redis.conf /etc/redis/redis.conf
+ADD run /usr/local/bin/run
 
 EXPOSE 6379
 VOLUME ["/var/lib/redis"]
 VOLUME ["/var/log/redis"]
 
-CMD ["/usr/bin/redis-server", "/etc/redis/redis.conf"]
+CMD ["/usr/local/bin/run"]
