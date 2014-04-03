@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'erb'
+
+File.open('/etc/nginx/sites-enabled/default', 'w') do |f|
+  tpl = File.read('/etc/nginx/sites-available/default.erb')
+  f.write(ERB.new(tpl).result)
+end

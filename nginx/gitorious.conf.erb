@@ -1,5 +1,5 @@
 upstream rails {
-  server localhost:3000 fail_timeout=0;
+  server <%= ENV['UNICORN_PORT_3000_TCP_ADDR'] %>:<%= ENV['UNICORN_PORT_3000_TCP_PORT'] %> fail_timeout=0;
 }
 
 server {
@@ -23,7 +23,7 @@ server {
   # Which should be streamed from $GITORIOUS_ROOT/tmp/tarball-cache/project-repo-sha.tar.gz
   location /tarballs/ {
     internal;
-    alias /var/lib/gitorious/data/tarball-cache/;
+    alias /data/tarball-cache/;
   }
 
   # Handle git-over-http requests
@@ -32,6 +32,6 @@ server {
   # Which should map to $GITORIOUS_ROOT/tmp/repositories/project/repository.git/info/refs
   location /git-http/ {
     internal;
-    alias /var/lib/gitorious/data/repositories/;
+    alias /data/repositories/;
   }
 }

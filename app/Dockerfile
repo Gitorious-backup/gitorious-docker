@@ -49,12 +49,20 @@ RUN ln -s /data/config/database.yml /srv/gitorious/app/config/; \
 # expose log files
 # RUN rm -rf /srv/gitorious/app/log && ln -s /var/lib/gitorious/data/logs /srv/gitorious/app/log
 
+RUN su git -c "git fetch -q && git checkout b8d03c4"
+RUN su git -c "git submodule update --recursive --init &&  bundle exec rake assets:precompile"
+
+RUN su git -c "git fetch -q && git checkout 0b65241"
+
 # copy all files from gitorious-docker repo to the image
 ADD config/gitorious.overrides.yml /srv/gitorious/app/config/gitorious.overrides.yml
+ADD config/resque.yml /srv/gitorious/app/config/resque.yml
+ADD config/memcache.yml /srv/gitorious/app/config/memcache.yml
 ADD config/unicorn.rb /srv/gitorious/app/config/unicorn.rb
 ADD templates /srv/gitorious/templates
 ADD run /usr/local/bin/run
 
+EXPOSE 3000
 # expose directory with data and config files to the host
 VOLUME ["/srv/gitorious/app/log"]
 VOLUME ["/srv/gitorious/app/tmp"]

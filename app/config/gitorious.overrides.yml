@@ -1,6 +1,6 @@
 user: git
 frontend_server: nginx
-client_host: <%= (ENV['UNICORN_PORT_3000_TCP_ADDR'] || 3000).to_i %>
+client_host: <%= ENV['UNICORN_PORT_3000_TCP_ADDR'] || 'localhost' %>
 client_port: <%= (ENV['UNICORN_PORT_3000_TCP_PORT'] || 3000).to_i %>
 repository_base_path: /data/repositories
 archive_cache_dir: /data/tarball-cache
